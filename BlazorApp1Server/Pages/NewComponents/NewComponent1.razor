@@ -1,0 +1,39 @@
+﻿@page "/newcomponents/newcomponent1"
+<div class="row border p-3">
+    <h3>NewComponent1</h3>
+
+    <p>Model: @newModel1.Name</p>
+
+    <p>Description: @newModel1.Description</p>
+
+    <input type="text" name="description" @bind-value="@newModel1.Description" @bind-value:event="oninput" />
+
+    <p>Is Accessible: @newModel1.IsActive</p>
+</div>
+
+<button @onclick="SendMessage">Click Me</button>
+
+@code {
+    [Parameter]
+    public EventCallback<string> OnButtonClick { get; set; }
+
+    private async Task SendMessage()
+    {
+        newModel1.Description = "Message from button";
+        await OnButtonClick.InvokeAsync();
+    }
+
+    private string DoMessage()
+    {
+        newModel1.Description = "Message from button";
+        return "Message";    
+    }
+
+    NewModel1 newModel1 = new()
+        {
+            Id = 1,
+            Name = "New Model",
+            Description = "",
+            IsActive = true
+        };
+}

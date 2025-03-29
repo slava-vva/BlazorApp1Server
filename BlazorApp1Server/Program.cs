@@ -1,13 +1,20 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using BlazorApp1Server.Data;
+using Blazor_Models.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+var connectionString = builder.Configuration.GetConnectionString("DbConnection1");
+builder.Services.AddDbContext<AutoDBContext>(options => options.UseSqlServer(connectionString));
+
 builder.Services.AddSingleton<WeatherForecastService>();
+
 
 var app = builder.Build();
 
@@ -21,7 +28,7 @@ if (!app.Environment.IsDevelopment())
 else { 
 }
 
-    app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 

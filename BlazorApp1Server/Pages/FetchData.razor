@@ -10,11 +10,13 @@
 
 @if (forecasts == null)
 {
+    //<div class="spinner"></div>
     <p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table">
+    
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Date</th>
@@ -42,6 +44,26 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        //System.Threading.Thread.Sleep(2000);
         forecasts = await ForecastService.GetForecastAsync(DateOnly.FromDateTime(DateTime.Now));
+    }
+
+    // EmployeeListBase.cs
+
+    public class EmployeeListBase : ComponentBase
+    {
+        public IEnumerable<string> Employees { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            await Task.Run(LoadEmployees);
+        }
+
+        private void LoadEmployees()
+        {
+            System.Threading.Thread.Sleep(2000);
+            // Retrieve data from the server and initialize
+            // Employees property which the View will bind
+        }
     }
 }
